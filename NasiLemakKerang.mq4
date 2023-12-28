@@ -21,10 +21,11 @@ int OnInit()
 
 void OnTick()
   {
-   double ma1 = iMA(Symbol(), 0, 25, 0, MODE_SMA, PRICE_CLOSE, 0);
-   double ma2 = iMA(Symbol(), 0, 50, 0, MODE_SMA, PRICE_CLOSE, 0);
-   double ma3 = iMA(Symbol(), 0, 75, 0, MODE_SMA, PRICE_CLOSE, 0);
-   double ma4 = iMA(Symbol(), 0, 100, 0, MODE_SMA, PRICE_CLOSE, 0);
+   double ma1 = iMA(Symbol(), 0, 2, 0, MODE_SMMA, PRICE_CLOSE, 0);
+   double ma2 = iMA(Symbol(), 0, 4, 0, MODE_SMMA, PRICE_CLOSE, 0);
+   double ma3 = iMA(Symbol(), 0, 6, 0, MODE_SMMA, PRICE_CLOSE, 0);
+   double ma4 = iMA(Symbol(), 0, 8, 0, MODE_SMMA, PRICE_CLOSE, 0);
+   double ma5 = iMA(Symbol(), 0, 10, 0, MODE_SMMA, PRICE_CLOSE, 0);
 
    if(!positionOpen)
      {
@@ -32,9 +33,6 @@ void OnTick()
       double accountBalance = AccountInfoDouble(ACCOUNT_BALANCE);
       double lotSize;
       double var;
-
-      //this one is for testing purpose
-      Print("Account Balance: ", accountBalance);
 
       if(accountBalance < 100)
         {
@@ -47,13 +45,13 @@ void OnTick()
         }
 
 
-      if(ma1 > ma2 && ma2 > ma3 && ma3 > ma4)
+      if(ma1 > ma2 && ma2 > ma3 && ma3 > ma4 && ma4 > ma5)
         {
          OrderSend(Symbol(), OP_BUY, lotSize, Bid, 3, 0, 0, name, 0, 0, Green);
          positionOpen = true;
         }
 
-      if(ma4 > ma3 && ma3 > ma2 && ma2 > ma1)
+      if(ma5 > ma4 && ma4 > ma3 && ma3 > ma2 && ma2 > ma1)
         {
          OrderSend(Symbol(), OP_SELL, lotSize, Ask, 3, 0, 0, name, 0, 0, Red);
          positionOpen = true;
@@ -62,15 +60,15 @@ void OnTick()
 
    if(positionOpen)
      {
-      if((ma1 > ma3 && ma4 > ma2) || (ma3 > ma1 && ma2 > ma4))
+      if((ma4 > ma5 && ma2 > ma1) || (ma5 > ma4 && ma1 > ma2))
         {
-         CloseAllPositions();
+         ClosePositions();
          positionOpen = false;
         }
      }
   }
 
-void CloseAllPositions()
+void ClosePositions()
   {
    bool endLoop = false, order = OrdersHistoryTotal();
    if(order < 1)
