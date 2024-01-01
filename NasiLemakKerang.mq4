@@ -21,11 +21,11 @@ int OnInit()
 
 void OnTick()
   {
-   double ma1 = iMA(Symbol(), 0, 2, 0, MODE_SMMA, PRICE_CLOSE, 0);
-   double ma2 = iMA(Symbol(), 0, 4, 0, MODE_SMMA, PRICE_CLOSE, 0);
-   double ma3 = iMA(Symbol(), 0, 6, 0, MODE_SMMA, PRICE_CLOSE, 0);
-   double ma4 = iMA(Symbol(), 0, 8, 0, MODE_SMMA, PRICE_CLOSE, 0);
-   double ma5 = iMA(Symbol(), 0, 10, 0, MODE_SMMA, PRICE_CLOSE, 0);
+   double ma1 = iMA(Symbol(), 0, 24, 0, MODE_SMMA, PRICE_CLOSE, 0);
+   double ma2 = iMA(Symbol(), 0, 38, 0, MODE_SMMA, PRICE_CLOSE, 0);
+   double ma3 = iMA(Symbol(), 0, 50, 0, MODE_SMMA, PRICE_CLOSE, 0);
+   double ma4 = iMA(Symbol(), 0, 62, 0, MODE_SMMA, PRICE_CLOSE, 0);
+   double ma5 = iMA(Symbol(), 0, 100, 0, MODE_SMMA, PRICE_CLOSE, 0);
 
    if(!positionOpen)
      {
@@ -60,7 +60,7 @@ void OnTick()
 
    if(positionOpen)
      {
-      if((ma4 > ma5 && ma2 > ma1) || (ma5 > ma4 && ma1 > ma2))
+      if((ma3 > ma5 && ma3 > ma1 && ma3 > ma2) || (ma5 > ma3 && ma1 > ma3 && ma2 > ma3))
         {
          ClosePositions();
          positionOpen = false;
